@@ -1,7 +1,10 @@
 import Header from './components/Header';
 import PostList from './components/PostList';
 import { samplePosts } from './data/posts';
+import withLogger from './hoc/withLogger';
 import './App.css';
+
+const LoggedPostList = withLogger(PostList);
 
 function App() {
   return (
@@ -17,7 +20,7 @@ function App() {
           </p>
         </section>
 
-        <PostList posts={samplePosts} />
+        <LoggedPostList posts={samplePosts} />
       </main>
     </>
   );

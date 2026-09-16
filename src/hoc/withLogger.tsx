@@ -1,21 +1,25 @@
-import { useEffect } from 'react'
-import type { ComponentType } from 'react'
+import { useEffect } from 'react';
 
-export default function withLogger<T extends object>(
-  WrappedComponent: ComponentType<T>,
+function withLogger<P extends object>(
+  WrappedComponent: React.ComponentType<P>
 ) {
-  const displayName =
-    WrappedComponent.displayName || WrappedComponent.name || 'Component'
-
-  function WithLogger(props: T) {
+  function WithLogger(props: P) {
     useEffect(() => {
-      console.log(`${displayName} mounted`)
-    }, [])
+      console.log(`${WrappedComponent.name} mounted`);
 
-    return <WrappedComponent {...props} />
+      return () => {
+        console.log(`${WrappedComponent.name} unmounted`);
+      };
+    }, []);
+
+    return <WrappedComponent {...props} />;
   }
 
-  WithLogger.displayName = `WithLogger(${displayName})`
+  WithLogger.displayName = `WithLogger(${
+    WrappedComponent.displayName || WrappedComponent.name || 'Component'
+  })`;
 
-  return WithLogger
+  return WithLogger;
 }
+
+export default withLogger;
