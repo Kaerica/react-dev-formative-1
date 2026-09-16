@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import '../styles/Post.css';
 import type { Post as PostType } from '../types/post';
 
@@ -5,7 +6,7 @@ type PostProps = {
   post: PostType;
 };
 
-export default function Post({ post }: PostProps) {
+function Post({ post }: PostProps) {
   return (
     <article
       className={`post-card ${post.featured ? 'post-card--featured' : ''}`}
@@ -32,3 +33,5 @@ export default function Post({ post }: PostProps) {
     </article>
   );
 }
+
+export default memo(Post);
