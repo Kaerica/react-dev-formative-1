@@ -25,7 +25,7 @@ The project was created to practice building reusable React components, using Ty
 - React — for building the user interface with reusable components.
 - TypeScript — for defining the post data structure and component props.
 - Vite — for the development server and production build.
-- CSS — for styling the header, page, and post cards.
+- CSS — external stylesheets and a small inline style for styling the header, page, and post cards.
 
 ## Project Structure
 
@@ -64,6 +64,8 @@ I chose functional components because they make the interface easier to organize
 
 The Header, Post, and PostList components each have a clear responsibility, making the code easier to understand and maintain.
 
+For the **Post** component specifically, I chose a functional component over a class component. Post only receives props and renders markup, so it has no need for local state or lifecycle methods, and a class would add extra boilerplate (`this`, `render()`, a constructor). A functional component is shorter, easier to read, and can be wrapped with `React.memo` for optimization.
+
 ### 2. TypeScript for post data
 
 I created a Post interface to define the structure of each blog post. It includes an ID, title, author, content, date, category, and an optional featured property.
@@ -87,6 +89,10 @@ This keeps the sample content separate from the layout and makes it easier to up
 I used external CSS files to keep styling separate from the component logic. The post cards use a responsive grid, spacing, borders, and hover effects.
 
 I also used conditional styling for featured posts. When a post has `featured: true`, it receives a featured class and label.
+
+I also used a small inline style (`style={{ ... }}`) on featured posts to add a blue glow. Inline styles suit this because the value depends directly on the post's data. Together, external CSS and inline styles are the two styling methods used in this project.
+
+Each post card shows a short preview of the content (the first 100 characters followed by "…") instead of the full text.
 
 I chose this because the same component can display different visual states based on its data, without needing a separate component for featured posts.
 
@@ -154,6 +160,15 @@ npm run build
 
 This runs the TypeScript build check and creates the production build using Vite.
 
+### Test the application
+
+This project does not include an automated test suite yet. To check that it works:
+
+1. Run `npm run build` to confirm the TypeScript code compiles without errors.
+2. Run `npm run lint` to check the code with Oxlint.
+3. Run `npm run dev`, open the local URL, and confirm the header, the welcome section, and the three post cards display correctly.
+4. Open the browser console and confirm the `PostList mounted` message appears (from the `withLogger` HOC).
+
 ## Challenges and Learning
 
 One challenge I encountered was working with the project in nested folders. At first, I was running the development server from the nested Vite starter instead of the project root containing my custom application.
@@ -166,7 +181,20 @@ Through this project, I practiced connecting components through props, defining 
 
 ## Packages
 
-The project uses React, React DOM, TypeScript, and Vite as its main technologies. The installed dependencies and scripts are recorded in `package.json` and `package-lock.json`.
+**Dependencies**
+
+- `react` — UI library
+- `react-dom` — renders React components in the browser
+
+**Dev dependencies**
+
+- `vite` — development server and build tool
+- `@vitejs/plugin-react` — React support for Vite
+- `typescript` — static typing
+- `@types/react`, `@types/react-dom`, `@types/node` — TypeScript type definitions
+- `oxlint` — linter
+
+No other external libraries are used. The full list of versions is recorded in `package.json` and `package-lock.json`.
 
 ## Future Improvements
 
